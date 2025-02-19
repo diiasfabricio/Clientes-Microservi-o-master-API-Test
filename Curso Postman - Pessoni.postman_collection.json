@@ -47,7 +47,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nome\": \"Virgolino\",\r\n    \"idade\": 50, \r\n    \"id\": \"03\"\r\n}",
+					"raw": "{\r\n    \"nome\": \"Samantha Araujo\",\r\n    \"idade\": 28, \r\n    \"id\": \"02\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -74,7 +74,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nome\": \"Samantha Araujo\",\r\n    \"idade\": 28, \r\n    \"id\": \"02\"\r\n}",
+					"raw": "{\r\n    \"nome\": \"Samantha Araujo\",\r\n    \"idade\": 30, \r\n    \"id\": \"02\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -115,6 +115,9 @@
 		},
 		{
 			"name": "PegarClientesComRisco",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "basic",
@@ -133,6 +136,15 @@
 				},
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "localhost:8080/risco/02",
 					"host": [
