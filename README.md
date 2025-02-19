@@ -1,87 +1,99 @@
-# SOBRE O PROJETO
+# Teste de API - Microserviço de Controle e Gestão de Clientes
 
-Esse é um projeto de exercício feito com o Postman, para testar uma API de controle e cadastros de clientes, onde nela testamos várias requisições da API.
+Este documento descreve os testes realizados na API de um microserviço de controle e gestão de clientes utilizando o Postman.
 
-# SOBRE A API
-## API Exemplo Cliente
+## Descrição da API
 
-Essa é um exemplo de uma API (microserviço) para estudo tanto de programação quanto testes automatizados.
+A API foi desenvolvida em Kotlin e Spring Boot e fornece endpoints para manipulação de dados de clientes. Ela pode ser executada localmente ou acessada via Heroku.
 
-Ela foi criada para o curso de teste de APIS com Postman, Java, Restassured [disponível aqui](https://viniciuspessoni.com/curso-testando-apis-com-postman-do-zero)
+### Endereços de acesso:
 
-Mesmo sem ter feito o curso, você pode baixar e executar a API pra estudo =)
+- **Local:** `http://localhost:8080/`
+- **Heroku:** `https://tester-global-cliente-api.herokuapp.com/`
+- **Swagger Local:** `http://localhost:8080/swagger-ui.html`
+- **Swagger Heroku:** `https://tester-global-cliente-api.herokuapp.com/swagger-ui.html#/`
 
-Usei Kotlin e Springboot para programar essa API.
+### Endpoints disponíveis:
 
-### Requisitos
+- `GET /clientes` - Retorna todos os clientes.
+- `GET /cliente/{ID}` - Retorna um cliente pelo ID.
+- `POST /cliente` - Cadastra um novo cliente.
+- `PUT /cliente` - Atualiza um cliente existente.
+- `DELETE /cliente/{ID}` - Remove um cliente pelo ID.
+- `GET /risco/{id}` - Retorna o risco do cliente (requisição autenticada via Basic Authentication).
 
-Baixe e instale o [INTELIJ](https://www.jetbrains.com/idea/)
+---
 
-Baixe e instale a JDK mais recente [JDK](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+## Configuração do Postman
 
-### Como rodar esse projeto
+Para realizar os testes, foi criada uma coleção no Postman contendo as requisições para cada endpoint. Os testes incluem:
 
-Clone ou baixe o projeto.
+### 1. **Teste de Consulta de Clientes** (`GET /clientes`)
 
-Navegue até a pasta com.viniciuspessoni e abra a classe Aplicacao.kt.
+- Verifica se a API retorna corretamente a lista de clientes cadastrados.
+- Valida o código de resposta `200 OK`.
+- Confirma que o corpo da resposta contém um array de clientes.
 
-Um botão verde (um play) deve aparecer ao lado na linha 9, basta apertar ele.
+### 2. **Teste de Consulta de Cliente por ID** (`GET /cliente/{ID}`)
 
-A aplicação será iniciada e um servidor estará rodando e acessivel no endereço:
+- Verifica se a API retorna corretamente os dados de um cliente específico.
+- Valida o código de resposta `200 OK` quando o cliente existe.
+- Verifica se retorna `404 Not Found` quando o cliente não existe.
 
-        localhost:8080
+### 3. **Teste de Cadastro de Cliente** (`POST /cliente`)
 
+- Envia um JSON com os dados do novo cliente:
+  ```json
+  {
+    "nome": "Teste Cliente",
+    "idade": 25,
+    "id": "987654321"
+  }
+  ```
+- Valida o código de resposta `201 Created`.
+- Confirma se os dados do cliente foram cadastrados corretamente.
 
-Caso não queira usar o IntelliJ para executar o projeto, você pode fazer isso a partir do terminal.
-Abra um terminal, navegue até a pasta raiz do projeto e execute os comandos para Linux ou MacOs:
+### 4. **Teste de Atualização de Cliente** (`PUT /cliente`)
 
+- Envia um JSON com os novos dados do cliente:
+  ```json
+  {
+    "nome": "Cliente Atualizado",
+    "idade": 30,
+    "id": "987654321"
+  }
+  ```
+- Valida o código de resposta `200 OK`.
+- Confirma se os dados do cliente foram atualizados corretamente.
 
-    ./gradlew clean build
-    ./gradlew bootRun
+### 5. **Teste de Remoção de Cliente** (`DELETE /cliente/{ID}`)
 
-No Windows devemos executar os mesmos comandos, mas sem o ./ antes.
+- Envia uma requisição de exclusão para um ID existente.
+- Valida o código de resposta `204 No Content`.
+- Confirma que o cliente não existe mais ao fazer uma nova consulta.
 
-     gradlew clean build
-     gradlew bootRun
+### 6. **Teste de Consulta de Risco de Cliente** (`GET /risco/{id}`)
 
+- Envia uma requisição autenticada com usuário e senha.
+- Valida o código de resposta `200 OK`.
+- Confirma que a resposta contém as informações de risco do cliente.
 
-O primeiro comando irá construir a aplicação e o segundo irá rodar ela no terminal em que você está e será possivel ver os logs das API.           
+---
 
-Caso não queira clonar e rodar a API do seu próprio computador, você pode usar a versão que está rodando no HEROKU por aqui https://tester-global-cliente-api.herokuapp.com/
+## Execução dos Testes
 
-### A API
+1. **Importe a coleção no Postman**
+   - No Postman, clique em **Import** e carregue o arquivo da coleção de testes.
+2. **Configure o ambiente**
+   - Defina a variável `base_url` com o endereço da API (`http://localhost:8080` ou `https://tester-global-cliente-api.herokuapp.com`).
+3. **Execute os testes**
+   - Utilize a opção **Runner** do Postman para executar todos os testes de uma vez e validar as respostas.
 
-A API possui os endpoints:
+---
 
-    / ou /clientes --> GET clientes: para pegar todos os clientes.
-    /cliente/{ID}  --> GET cliente por ID: para pegar um cliente com base no seu id.
-    /cliente       --> POST cliente para cadastrar um cliente novo.
-    /cliente       --> PUT atualiza cliente já cadastrado previamente.
-    /cliente/{ID}  --> DELETE cliente por ID para deletar um cliente por ID.
-    /risco/{id}    --> GET cliente por ID com o risco (Basic Authentication)
+## Conclusão
 
-        ** OBS: o endpoint RISCO é autenticado com o tipo de autenticação básica (usuário e senha)
-
-Exemplo:
-
-    http://localhost:8080/
-        OU
-    http://localhost:8080/clientes
-    deve te mostrar a lista de clientes cadastrados
-
-Para cadastrar um cliente, vá no POSTMAN e crie um método POST.           
-O corpo do método POST é um JSON e deve conter:
-
-            {
-                "nome": "Vinny",
-                "idade": 30,
-                 "id": "123456789"
-            }
-
-Para uma visão completa dos códigos de resposta em cada endpoint, enquanto o seviço estiver sendo executado, veja o SWAGGER no endereço: http://localhost:8080/swagger-ui.html    
-
-O swagger dela também está disponível no HEROKU pelo link:
-https://tester-global-cliente-api.herokuapp.com/swagger-ui.html#/
+Os testes realizados validam a funcionalidade da API de clientes, garantindo que os endpoints estão funcionando conforme esperado. Para uma análise detalhada, consulte os logs do Postman e a documentação do Swagger.
 
 
 
